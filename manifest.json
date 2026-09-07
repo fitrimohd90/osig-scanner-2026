@@ -1,0 +1,10 @@
+{
+  "name": "Scanner OSiG 2026",
+  "short_name": "Scanner OSiG",
+  "description": "Scanner e-Tiket OSiG MADANI 2026",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111"
+}
