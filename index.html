@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Scanner OSiG 2026</title>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 15px;
+      background: white;
+    }
+
+    #result {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #222;
+      border-radius: 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Scanner OSiG 2026</h1>
+  <div class="subtitle">Imbas QR e-Tiket</div>
+
+  <div id="reader"></div>
+
+  <div id="result">
+    Menunggu imbasan...
+  </div>
+
+  <script>
+    let sudahScan = false;
+
+    function onScanSuccess(decodedText) {
+
+      if (sudahScan) return;
+
+      sudahScan = true;
+
+      document.getElementById("result").innerHTML =
+        "QR DIKESAN<br><br>" + decodedText;
+
+      html5QrCode.stop();
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+
+    Html5Qrcode.getCameras()
+      .then(cameras => {
+
+        if (cameras && cameras.length) {
+
+          // Biasanya kamera terakhir ialah kamera belakang
+          const cameraId = cameras[cameras.length - 1].id;
+
+          html5QrCode.start(
+            cameraId,
+            {
+              fps: 10,
+              qrbox: {
+                width: 250,
+                height: 250
+              }
+            },
+            onScanSuccess
+          );
+
+        } else {
+
+          document.getElementById("result").innerText =
+            "Kamera tidak dijumpai.";
+
+        }
+
+      })
+      .catch(error => {
+
+        document.getElementById("result").innerText =
+          "Kamera tidak dapat dibuka: " + error;
+
+      });
+  </script>
+
+</body>
+</html>
