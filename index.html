@@ -1,130 +1,776 @@
 <!DOCTYPE html>
 <html lang="ms">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Scanner OSiG 2026</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>Orkestra Siswa Guru MADANI 2026</title>
 
   <script src="https://unpkg.com/html5-qrcode"></script>
 
   <style>
 
+    /* =====================================================
+       ASAS
+       ===================================================== */
+
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #0a0a0a;
+      --panel: #151515;
+      --panel2: #1c1c1c;
+
+      --gold: #d6aa47;
+      --gold-light: #f1cf76;
+
+      --white: #f5f5f5;
+      --muted: #999;
+
+      --green: #3ac46b;
+      --green-bg: #103d22;
+
+      --yellow: #e6b936;
+      --yellow-bg: #4a3a0d;
+
+      --red: #e65050;
+      --red-bg: #471818;
+    }
+
+
+    html,
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
+      padding: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--white);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    }
+
+
+    body {
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(214,170,71,0.09),
+          transparent 35%
+        ),
+        #090909;
     }
 
-    .container {
+
+    .page {
       width: 100%;
-      max-width: 500px;
-      padding: 24px 18px;
+      max-width: 520px;
+
+      min-height: 100vh;
+
+      margin: auto;
+
+      padding:
+        26px
+        20px
+        calc(30px + env(safe-area-inset-bottom));
+
+      display: flex;
+      flex-direction: column;
+    }
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .header {
+      position: relative;
+
       text-align: center;
+
+      padding:
+        18px
+        5px
+        25px;
     }
 
-    h1 {
-      margin-bottom: 5px;
-      font-size: 30px;
+
+    .brand {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 15px;
     }
 
-    .subtitle {
-      color: #aaa;
-      margin-bottom: 25px;
+
+    .music-logo {
+      flex-shrink: 0;
+
+      font-family: serif;
+
+      font-size: 72px;
+      line-height: 0.9;
+
+      color: var(--gold-light);
+
+      filter:
+        drop-shadow(
+          0 0 12px
+          rgba(214,170,71,0.25)
+        );
     }
+
+
+    .brand-text {
+      text-align: left;
+    }
+
+
+    .title-row-1 {
+      margin: 0;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: clamp(40px, 10vw, 54px);
+
+      line-height: 0.95;
+
+      font-weight: 600;
+
+      color: var(--gold-light);
+
+      letter-spacing: -1px;
+    }
+
+
+    .title-row-2 {
+      margin-top: 8px;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: clamp(20px, 5.2vw, 27px);
+
+      line-height: 1.1;
+
+      font-weight: 600;
+
+      color: var(--white);
+
+      white-space: nowrap;
+    }
+
+
+    .venue {
+      margin-top: 19px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 12px;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 13px;
+
+      letter-spacing: 4px;
+
+      color: #ddd;
+    }
+
+
+    .venue::before,
+    .venue::after {
+      content: "";
+
+      height: 1px;
+      width: 60px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--gold)
+        );
+    }
+
+
+    .venue::after {
+      background:
+        linear-gradient(
+          90deg,
+          var(--gold),
+          transparent
+        );
+    }
+
+
+    /* =====================================================
+       CAMERA
+       ===================================================== */
+
+    .camera-frame {
+      position: relative;
+
+      width: 100%;
+
+      margin-top: 10px;
+
+      border:
+        2px solid
+        rgba(214,170,71,0.9);
+
+      border-radius: 22px;
+
+      overflow: hidden;
+
+      background: #111;
+
+      box-shadow:
+        0 0 22px
+        rgba(214,170,71,0.12);
+    }
+
 
     #reader {
       width: 100%;
-      background: black;
-      border-radius: 14px;
+
+      min-height: 360px;
+
+      overflow: hidden;
+
+      background: #000;
+    }
+
+
+    #reader video {
+      width: 100% !important;
+
+      min-height: 360px;
+
+      object-fit: cover !important;
+
+      border-radius: 20px;
+    }
+
+
+    /* Buang beberapa UI default library */
+
+    #reader__dashboard_section_csr span {
+      display: none !important;
+    }
+
+
+    #reader__dashboard_section_swaplink {
+      display: none !important;
+    }
+
+
+    #reader__status_span {
+      display: none !important;
+    }
+
+
+    #reader img {
+      display: none !important;
+    }
+
+
+    /* =====================================================
+       SCAN CORNERS
+       ===================================================== */
+
+    .scan-overlay {
+      pointer-events: none;
+
+      position: absolute;
+
+      inset: 0;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .scan-box {
+      position: relative;
+
+      width: 68%;
+      aspect-ratio: 1 / 1;
+    }
+
+
+    .corner {
+      position: absolute;
+
+      width: 58px;
+      height: 58px;
+    }
+
+
+    .corner.tl {
+      top: 0;
+      left: 0;
+
+      border-top: 8px solid white;
+      border-left: 8px solid white;
+
+      border-radius: 8px 0 0 0;
+    }
+
+
+    .corner.tr {
+      top: 0;
+      right: 0;
+
+      border-top: 8px solid white;
+      border-right: 8px solid white;
+
+      border-radius: 0 8px 0 0;
+    }
+
+
+    .corner.bl {
+      bottom: 0;
+      left: 0;
+
+      border-bottom: 8px solid white;
+      border-left: 8px solid white;
+
+      border-radius: 0 0 0 8px;
+    }
+
+
+    .corner.br {
+      bottom: 0;
+      right: 0;
+
+      border-bottom: 8px solid white;
+      border-right: 8px solid white;
+
+      border-radius: 0 0 8px 0;
+    }
+
+
+    /* =====================================================
+       RESULT / READY CARD
+       ===================================================== */
+
+    #result {
+      position: relative;
+
+      min-height: 205px;
+
+      margin-top: 22px;
+
+      padding: 24px 18px;
+
+      border:
+        2px solid
+        rgba(214,170,71,0.9);
+
+      border-radius: 22px;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(214,170,71,0.09),
+          transparent 65%
+        ),
+        #141414;
+
+      box-shadow:
+        0 0 22px
+        rgba(214,170,71,0.12);
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
       overflow: hidden;
     }
 
-    #result {
-      margin-top: 20px;
-      padding: 25px 15px;
-      border-radius: 14px;
-      min-height: 130px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+
+    /*
+       Garisan lembut macam gelombang muzik
+    */
+
+    #result::before {
+      content: "";
+
+      position: absolute;
+
+      left: -20%;
+      right: -20%;
+      bottom: -68px;
+
+      height: 110px;
+
+      border-radius: 50%;
+
+      border-top:
+        1px solid
+        rgba(214,170,71,0.28);
+
+      transform: rotate(-2deg);
+    }
+
+
+    .qr-ready-icon {
+      position: relative;
+
+      margin-bottom: 15px;
+
+      width: 65px;
+      height: 65px;
+
+      display: grid;
+      place-items: center;
+
+      font-size: 42px;
+
+      color: var(--gold-light);
+    }
+
+
+    /*
+       QR icon dibina terus dengan CSS.
+       Tak perlu gambar luar.
+    */
+
+    .qr-symbol {
+      display: grid;
+
+      width: 55px;
+      height: 55px;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      grid-template-rows:
+        repeat(3, 1fr);
+
+      gap: 5px;
+    }
+
+
+    .qr-symbol span {
+      border:
+        4px solid
+        var(--gold-light);
+
+      border-radius: 3px;
+    }
+
+
+    .qr-symbol span:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+
+    .qr-symbol span:nth-child(2) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+
+    .qr-symbol span:nth-child(3) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+
+    .qr-symbol span:nth-child(4) {
+      grid-column: 2;
+      grid-row: 2;
+
+      border: 0;
+
+      background: var(--gold-light);
+
+      width: 12px;
+      height: 12px;
+
+      justify-self: center;
+      align-self: center;
+    }
+
+
+    .qr-symbol span:nth-child(5) {
+      grid-column: 3;
+      grid-row: 3;
+
+      border: 0;
+
+      background: var(--gold-light);
+
+      width: 12px;
+      height: 12px;
+
+      justify-self: center;
+      align-self: center;
+    }
+
+
+    .status-title {
+      position: relative;
+
+      z-index: 2;
+
+      font-size: clamp(27px, 7vw, 36px);
+
+      line-height: 1.15;
+
+      font-weight: 700;
+
+      letter-spacing: 0.3px;
+    }
+
+
+    .tarikh {
+      position: relative;
+
+      z-index: 2;
+
+      margin-top: 18px;
+
+      font-size: clamp(17px, 4.5vw, 21px);
+
+      line-height: 1.3;
+
+      font-weight: 700;
+    }
+
+
+    .serial {
+      position: relative;
+
+      z-index: 2;
+
+      margin-top: 11px;
+
+      font-size: 16px;
+
+      color: rgba(255,255,255,0.72);
+
+      letter-spacing: 0.5px;
+    }
+
+
+    /* =====================================================
+       WARNA STATUS
+       ===================================================== */
+
+    #result.valid {
+      border-color: var(--green);
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(58,196,107,0.13),
+          transparent 70%
+        ),
+        var(--green-bg);
+
+      box-shadow:
+        0 0 22px
+        rgba(58,196,107,0.18);
+    }
+
+
+    #result.used {
+      border-color: var(--yellow);
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(230,185,54,0.13),
+          transparent 70%
+        ),
+        var(--yellow-bg);
+
+      box-shadow:
+        0 0 22px
+        rgba(230,185,54,0.17);
+    }
+
+
+    #result.invalid {
+      border-color: var(--red);
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(230,80,80,0.14),
+          transparent 70%
+        ),
+        var(--red-bg);
+
+      box-shadow:
+        0 0 22px
+        rgba(230,80,80,0.17);
+    }
+
+
+    #result.error {
+      border-color: #777;
+
       background: #222;
     }
 
-    .status-title {
-      font-size: 25px;
-      font-weight: bold;
-    }
 
-    .tarikh {
-      margin-top: 12px;
+    /* =====================================================
+       BUTTON
+       ===================================================== */
+
+    #scanButton {
+      display: none;
+
+      width: 100%;
+
+      margin-top: 20px;
+
+      padding: 17px 15px;
+
+      border: 0;
+
+      border-radius: 16px;
+
+      background: #f0f0f0;
+
+      color: #111;
+
       font-size: 18px;
-      font-weight: bold;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.1s ease,
+        opacity 0.1s ease;
     }
 
-    .serial {
-      margin-top: 8px;
-      font-size: 15px;
+
+    #scanButton:active {
+      transform: scale(0.98);
       opacity: 0.85;
     }
 
 
-    /* =========================
-       HIJAU - TIKET SAH
-       ========================= */
+    /* =====================================================
+       FOOTER
+       ===================================================== */
 
-    .valid {
-      background: #173d25 !important;
-      border: 2px solid #35c46a;
+    footer {
+      margin-top: auto;
+
+      padding-top: 32px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 15px;
+
+      color: #777;
+
+      font-size: 14px;
+
+      letter-spacing: 0.5px;
     }
 
 
-    /* =========================
-       KUNING - SUDAH DIGUNAKAN
-       ========================= */
+    footer::before,
+    footer::after {
+      content: "";
 
-    .used {
-      background: #493c12 !important;
-      border: 2px solid #e5ba32;
+      height: 1px;
+      width: 62px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          #555
+        );
     }
 
 
-    /* =========================
-       MERAH - TIADA DATABASE
-       ========================= */
-
-    .invalid {
-      background: #491c1c !important;
-      border: 2px solid #e54c4c;
+    footer::after {
+      background:
+        linear-gradient(
+          90deg,
+          #555,
+          transparent
+        );
     }
 
 
-    /* ERROR SISTEM */
+    /* =====================================================
+       PHONE KECIL
+       ===================================================== */
 
-    .error {
-      background: #333 !important;
-      border: 2px solid #777;
-    }
+    @media (max-width: 390px) {
 
+      .page {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
 
-    button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 18px;
-      border: 0;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      display: none;
+      .music-logo {
+        font-size: 61px;
+      }
+
+      .title-row-1 {
+        font-size: 38px;
+      }
+
+      .title-row-2 {
+        font-size: 18px;
+      }
+
+      .venue {
+        letter-spacing: 2.5px;
+      }
+
+      #reader,
+      #reader video {
+        min-height: 330px;
+      }
+
     }
 
   </style>
@@ -133,42 +779,145 @@
 
 <body>
 
-  <div class="container">
-
-    <h1>Scanner OSiG 2026</h1>
-
-    <div class="subtitle">
-      Imbas QR e-Tiket
-    </div>
+<div class="page">
 
 
-    <div id="reader"></div>
+  <!-- =================================================
+       HEADER
+       ================================================= -->
+
+  <header class="header">
+
+    <div class="brand">
+
+      <div class="music-logo">
+        𝄞
+      </div>
 
 
-    <div id="result">
+      <div class="brand-text">
 
-      <div class="status-title">
-        SEDIA UNTUK IMBAS
+        <div class="title-row-1">
+          Orkestra
+        </div>
+
+        <div class="title-row-2">
+          Siswa Guru MADANI 2026
+        </div>
+
       </div>
 
     </div>
 
 
-    <button id="scanButton" onclick="scanSemula()">
-      IMBAS TIKET SETERUSNYA
-    </button>
+    <div class="venue">
+      DEWAN SRI PINANG
+    </div>
+
+  </header>
+
+
+
+  <!-- =================================================
+       CAMERA
+       ================================================= -->
+
+  <div
+    class="camera-frame"
+    id="cameraFrame"
+  >
+
+    <div id="reader"></div>
+
+
+    <div class="scan-overlay">
+
+      <div class="scan-box">
+
+        <div class="corner tl"></div>
+
+        <div class="corner tr"></div>
+
+        <div class="corner bl"></div>
+
+        <div class="corner br"></div>
+
+      </div>
+
+    </div>
 
   </div>
 
 
 
+  <!-- =================================================
+       STATUS
+       ================================================= -->
+
+  <div id="result">
+
+    <div class="qr-ready-icon">
+
+      <div class="qr-symbol">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+    </div>
+
+
+    <div class="status-title">
+      SEDIA UNTUK IMBAS
+    </div>
+
+  </div>
+
+
+
+  <button
+    id="scanButton"
+    onclick="scanSemula()"
+  >
+    IMBAS TIKET SETERUSNYA
+  </button>
+
+
+
+  <!-- =================================================
+       FOOTER
+       ================================================= -->
+
+  <footer>
+    © FitriMohd 2026
+  </footer>
+
+
+</div>
+
+
+
 <script>
+
+/* =====================================================
+   API
+   ===================================================== */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzaFdaQyadvCNGG6AlwAZsbCBPH7rRF-k3FiBAzE2mnDmTGMil6gMtV4ypM9kOUYcgv/exec";
 
 
-let html5QrCode = new Html5Qrcode("reader");
+
+/* =====================================================
+   VARIABLES
+   ===================================================== */
+
+let html5QrCode =
+  new Html5Qrcode("reader");
 
 let cameraId = null;
 
@@ -177,56 +926,153 @@ let sedangScan = false;
 let sudahScan = false;
 
 
-// =====================================================
-// START CAMERA
-// =====================================================
 
-async function mulaScanner() {
+/* =====================================================
+   ESCAPE TEXT
+   ===================================================== */
 
-  if (sedangScan) return;
+function safe(value) {
 
-  sedangScan = true;
-  sudahScan = false;
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
-  const result = document.getElementById("result");
-  const button = document.getElementById("scanButton");
+}
 
-  button.style.display = "none";
+
+
+/* =====================================================
+   READY CARD
+   ===================================================== */
+
+function paparReady() {
+
+  const result =
+    document.getElementById("result");
+
 
   result.className = "";
 
+
   result.innerHTML = `
+
+    <div class="qr-ready-icon">
+
+      <div class="qr-symbol">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+    </div>
+
+
     <div class="status-title">
       SEDIA UNTUK IMBAS
     </div>
+
   `;
+
+}
+
+
+
+/* =====================================================
+   START SCANNER
+   ===================================================== */
+
+async function mulaScanner() {
+
+  if (sedangScan) {
+    return;
+  }
+
+
+  sedangScan = true;
+
+  sudahScan = false;
+
+
+  const button =
+    document.getElementById("scanButton");
+
+
+  const cameraFrame =
+    document.getElementById("cameraFrame");
+
+
+  button.style.display = "none";
+
+  cameraFrame.style.display = "block";
+
+
+  paparReady();
 
 
   try {
+
+
+    /* ---------------------------------------------
+       Cari kamera kali pertama sahaja
+       --------------------------------------------- */
 
     if (!cameraId) {
 
       const cameras =
         await Html5Qrcode.getCameras();
 
-      if (!cameras || cameras.length === 0) {
-        throw new Error("Tiada kamera dijumpai.");
+
+      if (
+        !cameras ||
+        cameras.length === 0
+      ) {
+
+        throw new Error(
+          "Tiada kamera dijumpai."
+        );
+
       }
 
 
-      // Pilih kamera belakang jika ada
+      /*
+        Utamakan kamera belakang.
+      */
+
       const kameraBelakang =
-        cameras.find(cam =>
-          cam.label.toLowerCase().includes("back") ||
-          cam.label.toLowerCase().includes("rear")
-        );
+        cameras.find(camera => {
+
+          const label =
+            camera.label.toLowerCase();
+
+
+          return (
+            label.includes("back") ||
+            label.includes("rear") ||
+            label.includes("environment")
+          );
+
+        });
+
 
       cameraId =
         kameraBelakang
           ? kameraBelakang.id
           : cameras[cameras.length - 1].id;
+
     }
 
+
+
+    /* ---------------------------------------------
+       Start kamera
+       --------------------------------------------- */
 
     await html5QrCode.start(
 
@@ -234,55 +1080,105 @@ async function mulaScanner() {
 
       {
         fps: 10,
+
         qrbox: {
           width: 250,
           height: 250
-        }
+        },
+
+        aspectRatio: 1
       },
+
+
+      /* -------------------------------------------
+         QR berjaya dibaca
+         ------------------------------------------- */
 
       async function(decodedText) {
 
-        if (sudahScan) return;
+
+        if (sudahScan) {
+          return;
+        }
+
 
         sudahScan = true;
+
 
         try {
 
           await html5QrCode.stop();
 
-        } catch (e) {}
+        }
+
+        catch (error) {}
 
 
         sedangScan = false;
+
+
+        /*
+          Selepas QR berjaya dibaca,
+          sembunyikan kamera supaya keputusan
+          lebih jelas.
+        */
+
+        cameraFrame.style.display =
+          "none";
+
 
         semakTiket(decodedText);
 
       },
 
+
+      /* -------------------------------------------
+         QR belum dikesan
+         ------------------------------------------- */
+
       function(errorMessage) {
-        // QR belum dijumpai - abaikan
+
+        /*
+          Abaikan.
+          Scanner memang akan cuba berulang kali.
+        */
+
       }
 
     );
 
 
-  } catch (err) {
+  }
+
+  catch (error) {
+
 
     sedangScan = false;
 
-    result.className = "error";
+
+    const result =
+      document.getElementById("result");
+
+
+    result.className =
+      "error";
+
 
     result.innerHTML = `
+
       <div class="status-title">
         KAMERA TIDAK DAPAT DIBUKA
       </div>
 
       <div class="serial">
-        ${err.message}
+        ${safe(error.message)}
       </div>
+
     `;
 
-    button.style.display = "block";
+
+    button.style.display =
+      "block";
 
   }
 
@@ -290,35 +1186,61 @@ async function mulaScanner() {
 
 
 
-// =====================================================
-// SEMAK TIKET MELALUI JSONP
-// =====================================================
+/* =====================================================
+   SEMAK TIKET - JSONP
+   ===================================================== */
 
 function semakTiket(serial) {
 
-  serial = serial.trim();
+
+  serial =
+    String(serial || "").trim();
+
 
   const result =
     document.getElementById("result");
 
-  const button =
-    document.getElementById("scanButton");
-
 
   result.className = "";
 
+
   result.innerHTML = `
+
+    <div class="qr-ready-icon">
+
+      <div class="qr-symbol">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+    </div>
+
+
     <div class="status-title">
       MENYEMAK TIKET...
     </div>
+
   `;
 
+
+
+  /* ---------------------------------------------
+     Nama callback unik
+     --------------------------------------------- */
 
   const callbackName =
     "osigCallback_" +
     Date.now() +
     "_" +
-    Math.floor(Math.random() * 100000);
+    Math.floor(
+      Math.random() * 100000
+    );
+
 
 
   const script =
@@ -328,201 +1250,321 @@ function semakTiket(serial) {
   let timeout;
 
 
-  window[callbackName] = function(data) {
 
-    clearTimeout(timeout);
+  /* ---------------------------------------------
+     Bila backend jawab
+     --------------------------------------------- */
 
-    delete window[callbackName];
-
-    script.remove();
-
-    paparKeputusan(data);
-
-  };
+  window[callbackName] =
+    function(data) {
 
 
-  script.onerror = function() {
+      clearTimeout(timeout);
 
-    clearTimeout(timeout);
 
-    delete window[callbackName];
+      delete window[callbackName];
 
-    script.remove();
 
-    paparKeputusan({
-      status: "ERROR",
-      message: "Gagal menghubungi sistem."
-    });
+      script.remove();
 
-  };
 
+      paparKeputusan(data);
+
+    };
+
+
+
+  /* ---------------------------------------------
+     Sambungan gagal
+     --------------------------------------------- */
+
+  script.onerror =
+    function() {
+
+
+      clearTimeout(timeout);
+
+
+      delete window[callbackName];
+
+
+      script.remove();
+
+
+      paparKeputusan({
+
+        status: "ERROR",
+
+        message:
+          "Gagal menghubungi sistem."
+
+      });
+
+    };
+
+
+
+  /* ---------------------------------------------
+     Panggil Apps Script
+     --------------------------------------------- */
 
   script.src =
     API_URL +
+
     "?serial=" +
     encodeURIComponent(serial) +
+
     "&callback=" +
-    encodeURIComponent(callbackName);
+    encodeURIComponent(
+      callbackName
+    );
 
 
   document.body.appendChild(script);
 
 
-  timeout = setTimeout(function() {
 
-    if (window[callbackName]) {
+  /* ---------------------------------------------
+     Timeout
+     --------------------------------------------- */
 
-      delete window[callbackName];
+  timeout =
+    setTimeout(
+      function() {
 
-      script.remove();
 
-      paparKeputusan({
-        status: "ERROR",
-        message: "Sambungan mengambil masa terlalu lama."
-      });
+        if (
+          window[callbackName]
+        ) {
 
-    }
 
-  }, 10000);
+          delete window[callbackName];
+
+
+          script.remove();
+
+
+          paparKeputusan({
+
+            status: "ERROR",
+
+            message:
+              "Sambungan mengambil masa terlalu lama."
+
+          });
+
+        }
+
+      },
+
+      10000
+    );
 
 }
 
 
 
-// =====================================================
-// PAPAR KEPUTUSAN
-// =====================================================
+/* =====================================================
+   PAPAR KEPUTUSAN
+   ===================================================== */
 
 function paparKeputusan(data) {
 
+
   const result =
     document.getElementById("result");
+
 
   const button =
     document.getElementById("scanButton");
 
 
-  // ===================================================
-  // TIKET SAH - BELUM DIGUNAKAN
-  // ===================================================
+  const serial =
+    safe(data.serial);
 
-  if (data.status === "VALID") {
 
-    result.className = "valid";
+  const hari =
+    safe(data.hari);
+
+
+  const tarikh =
+    safe(data.tarikh);
+
+
+
+  /* ===================================================
+     HIJAU
+     =================================================== */
+
+  if (
+    data.status === "VALID"
+  ) {
+
+
+    result.className =
+      "valid";
+
 
     result.innerHTML = `
+
       <div class="status-title">
         ✅ TIKET SAH
       </div>
 
+
       ${
         data.tarikh
+
         ? `
-        <div class="tarikh">
-          ${data.hari} • ${data.tarikh}
-        </div>
+
+          <div class="tarikh">
+            ${hari} • ${tarikh}
+          </div>
+
         `
+
         : ""
       }
 
+
       <div class="serial">
-        ${data.serial || ""}
+        ${serial}
       </div>
+
     `;
 
   }
 
 
-  // ===================================================
-  // TIKET SAH - SUDAH DIGUNAKAN
-  // ===================================================
 
-  else if (data.status === "USED") {
+  /* ===================================================
+     KUNING
+     =================================================== */
 
-    result.className = "used";
+  else if (
+    data.status === "USED"
+  ) {
+
+
+    result.className =
+      "used";
+
 
     result.innerHTML = `
+
       <div class="status-title">
-        ⚠️ TIKET TELAH DIGUNAKAN
+        ⚠️ TIKET TELAH<br>
+        DIGUNAKAN
       </div>
+
 
       ${
         data.tarikh
+
         ? `
-        <div class="tarikh">
-          ${data.hari} • ${data.tarikh}
-        </div>
+
+          <div class="tarikh">
+            ${hari} • ${tarikh}
+          </div>
+
         `
+
         : ""
       }
 
+
       <div class="serial">
-        ${data.serial || ""}
+        ${serial}
       </div>
+
     `;
 
   }
 
 
-  // ===================================================
-  // TIKET TAK WUJUD DALAM DATABASE
-  // ===================================================
 
-  else if (data.status === "INVALID") {
+  /* ===================================================
+     MERAH
+     =================================================== */
 
-    result.className = "invalid";
+  else if (
+    data.status === "INVALID"
+  ) {
+
+
+    result.className =
+      "invalid";
+
 
     result.innerHTML = `
+
       <div class="status-title">
         ❌ TIKET TIDAK SAH
       </div>
+
 
       <div class="tarikh">
         TIDAK WUJUD DALAM DATABASE
       </div>
 
+
       <div class="serial">
-        ${data.serial || ""}
+        ${serial}
       </div>
+
     `;
 
   }
 
 
-  // ===================================================
-  // ERROR SISTEM
-  // ===================================================
+
+  /* ===================================================
+     ERROR
+     =================================================== */
 
   else {
 
-    result.className = "error";
+
+    result.className =
+      "error";
+
 
     result.innerHTML = `
+
       <div class="status-title">
         RALAT SISTEM
       </div>
 
+
       <div class="serial">
-        ${data.message || "Ralat tidak diketahui."}
+        ${safe(
+          data.message ||
+          "Ralat tidak diketahui."
+        )}
       </div>
+
     `;
 
   }
 
 
-  button.style.display = "block";
+
+  button.style.display =
+    "block";
 
 }
 
 
 
-// =====================================================
-// SCAN SETERUSNYA
-// =====================================================
+/* =====================================================
+   SCAN SETERUSNYA
+   ===================================================== */
 
 function scanSemula() {
 
+
   sudahScan = false;
+
 
   mulaScanner();
 
@@ -530,13 +1572,14 @@ function scanSemula() {
 
 
 
-// =====================================================
-// START
-// =====================================================
+/* =====================================================
+   START
+   ===================================================== */
 
 mulaScanner();
 
 </script>
 
 </body>
+
 </html>
