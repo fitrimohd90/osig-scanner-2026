@@ -16,7 +16,7 @@
   <style>
 
     /* =====================================================
-       ASAS
+       ROOT
        ===================================================== */
 
     * {
@@ -24,24 +24,25 @@
     }
 
     :root {
-      --bg: #0a0a0a;
-      --panel: #151515;
-      --panel2: #1c1c1c;
+      --bg: #080808;
+      --panel: #121212;
 
-      --gold: #d6aa47;
-      --gold-light: #f1cf76;
+      --gold: #d7aa3f;
+      --gold-light: #f0c75e;
 
       --white: #f5f5f5;
-      --muted: #999;
+      --muted: #8d8d8d;
 
-      --green: #3ac46b;
-      --green-bg: #103d22;
+      --green: #38c56d;
+      --green-bg: #123d22;
 
-      --yellow: #e6b936;
-      --yellow-bg: #4a3a0d;
+      --yellow: #e4b733;
+      --yellow-bg: #493a0e;
 
-      --red: #e65050;
-      --red-bg: #471818;
+      --red: #e45050;
+      --red-bg: #471919;
+
+      --gray: #777;
     }
 
 
@@ -49,9 +50,13 @@
     body {
       margin: 0;
       padding: 0;
+
       min-height: 100%;
+
       background: var(--bg);
+
       color: var(--white);
+
       font-family:
         Arial,
         Helvetica,
@@ -65,12 +70,20 @@
       background:
         radial-gradient(
           circle at 50% 0%,
-          rgba(214,170,71,0.09),
-          transparent 35%
+          rgba(215, 170, 63, 0.07),
+          transparent 34%
         ),
-        #090909;
+        linear-gradient(
+          180deg,
+          #090909 0%,
+          #070707 100%
+        );
     }
 
+
+    /* =====================================================
+       PAGE
+       ===================================================== */
 
     .page {
       width: 100%;
@@ -78,12 +91,12 @@
 
       min-height: 100vh;
 
-      margin: auto;
+      margin: 0 auto;
 
       padding:
-        26px
-        20px
-        calc(30px + env(safe-area-inset-bottom));
+        18px
+        18px
+        calc(24px + env(safe-area-inset-bottom));
 
       display: flex;
       flex-direction: column;
@@ -97,12 +110,12 @@
     .header {
       position: relative;
 
-      text-align: center;
-
       padding:
-        18px
-        5px
-        25px;
+        8px
+        6px
+        20px;
+
+      text-align: center;
     }
 
 
@@ -112,29 +125,44 @@
       align-items: center;
       justify-content: center;
 
-      gap: 15px;
+      gap: 10px;
     }
 
+
+    /* -----------------------------------------------------
+       LOGO MUZIK
+       ----------------------------------------------------- */
 
     .music-logo {
       flex-shrink: 0;
 
-      font-family: serif;
+      width: 58px;
 
-      font-size: 72px;
-      line-height: 0.9;
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: 66px;
+      line-height: 0.88;
 
       color: var(--gold-light);
 
-      filter:
-        drop-shadow(
-          0 0 12px
-          rgba(214,170,71,0.25)
-        );
+      transform: translateY(2px);
+
+      text-shadow:
+        0 0 14px
+        rgba(215, 170, 63, 0.18);
     }
 
 
+    /* -----------------------------------------------------
+       TEKS HEADER
+       ----------------------------------------------------- */
+
     .brand-text {
+      width: min-content;
+
       text-align: left;
     }
 
@@ -147,40 +175,51 @@
         "Times New Roman",
         serif;
 
-      font-size: clamp(40px, 10vw, 54px);
+      font-size: clamp(44px, 11vw, 58px);
 
-      line-height: 0.95;
+      line-height: 0.9;
 
       font-weight: 600;
 
+      letter-spacing: -1px;
+
       color: var(--gold-light);
 
-      letter-spacing: -1px;
+      white-space: nowrap;
     }
 
 
     .title-row-2 {
-      margin-top: 8px;
+      margin-top: 3px;
+
+      width: 100%;
 
       font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-      font-size: clamp(20px, 5.2vw, 27px);
+      font-size: clamp(16px, 4.25vw, 22px);
 
-      line-height: 1.1;
+      line-height: 1;
 
       font-weight: 600;
 
       color: var(--white);
 
       white-space: nowrap;
+
+      text-align: justify;
+      text-align-last: justify;
     }
 
 
+    /* =====================================================
+       VENUE
+       ===================================================== */
+
     .venue {
-      margin-top: 19px;
+      margin-top: 14px;
 
       display: flex;
 
@@ -194,11 +233,11 @@
         "Times New Roman",
         serif;
 
-      font-size: 13px;
+      font-size: 12px;
 
       letter-spacing: 4px;
 
-      color: #ddd;
+      color: #e1e1e1;
     }
 
 
@@ -206,8 +245,10 @@
     .venue::after {
       content: "";
 
+      display: block;
+
+      width: 62px;
       height: 1px;
-      width: 60px;
 
       background:
         linear-gradient(
@@ -229,7 +270,59 @@
 
 
     /* =====================================================
-       CAMERA
+       GOLD WAVE DECORATION
+       ===================================================== */
+
+    .header-wave {
+      position: absolute;
+
+      left: -35px;
+      right: -35px;
+      bottom: -8px;
+
+      height: 55px;
+
+      pointer-events: none;
+
+      overflow: hidden;
+
+      opacity: 0.25;
+    }
+
+
+    .header-wave::before,
+    .header-wave::after {
+      content: "";
+
+      position: absolute;
+
+      width: 80%;
+      height: 60px;
+
+      bottom: -43px;
+
+      border-top:
+        1px solid
+        rgba(215, 170, 63, 0.65);
+
+      border-radius: 50%;
+    }
+
+
+    .header-wave::before {
+      left: -10%;
+      transform: rotate(6deg);
+    }
+
+
+    .header-wave::after {
+      right: -10%;
+      transform: rotate(-6deg);
+    }
+
+
+    /* =====================================================
+       CAMERA FRAME
        ===================================================== */
 
     .camera-frame {
@@ -241,35 +334,35 @@
 
       border:
         2px solid
-        rgba(214,170,71,0.9);
+        var(--gold-light);
 
       border-radius: 22px;
 
       overflow: hidden;
 
-      background: #111;
+      background: #000;
 
       box-shadow:
-        0 0 22px
-        rgba(214,170,71,0.12);
+        0 0 20px
+        rgba(215, 170, 63, 0.1);
     }
 
 
     #reader {
       width: 100%;
 
-      min-height: 360px;
-
-      overflow: hidden;
+      min-height: 365px;
 
       background: #000;
+
+      overflow: hidden;
     }
 
 
     #reader video {
       width: 100% !important;
 
-      min-height: 360px;
+      min-height: 365px;
 
       object-fit: cover !important;
 
@@ -277,18 +370,12 @@
     }
 
 
-    /* Buang beberapa UI default library */
+    /* =====================================================
+       CLEAN html5-qrcode UI
+       ===================================================== */
 
-    #reader__dashboard_section_csr span {
-      display: none !important;
-    }
-
-
-    #reader__dashboard_section_swaplink {
-      display: none !important;
-    }
-
-
+    #reader__dashboard_section_csr span,
+    #reader__dashboard_section_swaplink,
     #reader__status_span {
       display: none !important;
     }
@@ -299,114 +386,45 @@
     }
 
 
-    /* =====================================================
-       SCAN CORNERS
-       ===================================================== */
-
-    .scan-overlay {
-      pointer-events: none;
-
-      position: absolute;
-
-      inset: 0;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-    }
-
-
-    .scan-box {
-      position: relative;
-
-      width: 68%;
-      aspect-ratio: 1 / 1;
-    }
-
-
-    .corner {
-      position: absolute;
-
-      width: 58px;
-      height: 58px;
-    }
-
-
-    .corner.tl {
-      top: 0;
-      left: 0;
-
-      border-top: 8px solid white;
-      border-left: 8px solid white;
-
-      border-radius: 8px 0 0 0;
-    }
-
-
-    .corner.tr {
-      top: 0;
-      right: 0;
-
-      border-top: 8px solid white;
-      border-right: 8px solid white;
-
-      border-radius: 0 8px 0 0;
-    }
-
-
-    .corner.bl {
-      bottom: 0;
-      left: 0;
-
-      border-bottom: 8px solid white;
-      border-left: 8px solid white;
-
-      border-radius: 0 0 0 8px;
-    }
-
-
-    .corner.br {
-      bottom: 0;
-      right: 0;
-
-      border-bottom: 8px solid white;
-      border-right: 8px solid white;
-
-      border-radius: 0 0 8px 0;
+    #reader__scan_region {
+      background: transparent !important;
     }
 
 
     /* =====================================================
-       RESULT / READY CARD
+       READY / RESULT PANEL
        ===================================================== */
 
     #result {
       position: relative;
 
-      min-height: 205px;
+      width: 100%;
 
-      margin-top: 22px;
+      min-height: 128px;
 
-      padding: 24px 18px;
+      margin-top: 18px;
+
+      padding:
+        20px
+        18px;
 
       border:
         2px solid
-        rgba(214,170,71,0.9);
+        var(--gold-light);
 
       border-radius: 22px;
 
       background:
         radial-gradient(
-          circle at center,
-          rgba(214,170,71,0.09),
-          transparent 65%
+          circle at 50% 55%,
+          rgba(215, 170, 63, 0.08),
+          transparent 68%
         ),
         #141414;
 
       box-shadow:
-        0 0 22px
-        rgba(214,170,71,0.12);
+        0 0 20px
+        rgba(215, 170, 63, 0.1);
 
       display: flex;
 
@@ -421,140 +439,63 @@
     }
 
 
-    /*
-       Garisan lembut macam gelombang muzik
-    */
+    /* -----------------------------------------------------
+       GOLD WAVES DALAM STATUS BOX
+       ----------------------------------------------------- */
 
-    #result::before {
+    #result::before,
+    #result::after {
       content: "";
 
       position: absolute;
 
-      left: -20%;
-      right: -20%;
-      bottom: -68px;
+      bottom: -42px;
 
-      height: 110px;
-
-      border-radius: 50%;
+      width: 72%;
+      height: 75px;
 
       border-top:
         1px solid
-        rgba(214,170,71,0.28);
+        rgba(215, 170, 63, 0.28);
 
-      transform: rotate(-2deg);
+      border-radius: 50%;
+
+      pointer-events: none;
     }
 
 
-    .qr-ready-icon {
-      position: relative;
+    #result::before {
+      left: -8%;
 
-      margin-bottom: 15px;
-
-      width: 65px;
-      height: 65px;
-
-      display: grid;
-      place-items: center;
-
-      font-size: 42px;
-
-      color: var(--gold-light);
+      transform: rotate(7deg);
     }
 
 
-    /*
-       QR icon dibina terus dengan CSS.
-       Tak perlu gambar luar.
-    */
+    #result::after {
+      right: -8%;
 
-    .qr-symbol {
-      display: grid;
-
-      width: 55px;
-      height: 55px;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      grid-template-rows:
-        repeat(3, 1fr);
-
-      gap: 5px;
+      transform: rotate(-7deg);
     }
 
 
-    .qr-symbol span {
-      border:
-        4px solid
-        var(--gold-light);
-
-      border-radius: 3px;
-    }
-
-
-    .qr-symbol span:nth-child(1) {
-      grid-column: 1;
-      grid-row: 1;
-    }
-
-
-    .qr-symbol span:nth-child(2) {
-      grid-column: 3;
-      grid-row: 1;
-    }
-
-
-    .qr-symbol span:nth-child(3) {
-      grid-column: 1;
-      grid-row: 3;
-    }
-
-
-    .qr-symbol span:nth-child(4) {
-      grid-column: 2;
-      grid-row: 2;
-
-      border: 0;
-
-      background: var(--gold-light);
-
-      width: 12px;
-      height: 12px;
-
-      justify-self: center;
-      align-self: center;
-    }
-
-
-    .qr-symbol span:nth-child(5) {
-      grid-column: 3;
-      grid-row: 3;
-
-      border: 0;
-
-      background: var(--gold-light);
-
-      width: 12px;
-      height: 12px;
-
-      justify-self: center;
-      align-self: center;
-    }
-
+    /* =====================================================
+       STATUS TEXT
+       ===================================================== */
 
     .status-title {
       position: relative;
 
       z-index: 2;
 
-      font-size: clamp(27px, 7vw, 36px);
+      font-size: clamp(27px, 7vw, 34px);
 
       line-height: 1.15;
 
       font-weight: 700;
 
-      letter-spacing: 0.3px;
+      letter-spacing: 0.25px;
+
+      color: var(--white);
     }
 
 
@@ -563,13 +504,15 @@
 
       z-index: 2;
 
-      margin-top: 18px;
+      margin-top: 15px;
 
-      font-size: clamp(17px, 4.5vw, 21px);
+      font-size: clamp(17px, 4.4vw, 21px);
 
-      line-height: 1.3;
+      line-height: 1.25;
 
       font-weight: 700;
+
+      color: var(--white);
     }
 
 
@@ -578,18 +521,19 @@
 
       z-index: 2;
 
-      margin-top: 11px;
+      margin-top: 10px;
 
       font-size: 16px;
 
-      color: rgba(255,255,255,0.72);
+      letter-spacing: 0.4px;
 
-      letter-spacing: 0.5px;
+      color:
+        rgba(255, 255, 255, 0.7);
     }
 
 
     /* =====================================================
-       WARNA STATUS
+       STATUS COLOURS
        ===================================================== */
 
     #result.valid {
@@ -598,14 +542,14 @@
       background:
         radial-gradient(
           circle at center,
-          rgba(58,196,107,0.13),
+          rgba(56, 197, 109, 0.12),
           transparent 70%
         ),
         var(--green-bg);
 
       box-shadow:
-        0 0 22px
-        rgba(58,196,107,0.18);
+        0 0 20px
+        rgba(56, 197, 109, 0.18);
     }
 
 
@@ -615,14 +559,14 @@
       background:
         radial-gradient(
           circle at center,
-          rgba(230,185,54,0.13),
+          rgba(228, 183, 51, 0.12),
           transparent 70%
         ),
         var(--yellow-bg);
 
       box-shadow:
-        0 0 22px
-        rgba(230,185,54,0.17);
+        0 0 20px
+        rgba(228, 183, 51, 0.17);
     }
 
 
@@ -632,21 +576,21 @@
       background:
         radial-gradient(
           circle at center,
-          rgba(230,80,80,0.14),
+          rgba(228, 80, 80, 0.13),
           transparent 70%
         ),
         var(--red-bg);
 
       box-shadow:
-        0 0 22px
-        rgba(230,80,80,0.17);
+        0 0 20px
+        rgba(228, 80, 80, 0.17);
     }
 
 
     #result.error {
-      border-color: #777;
+      border-color: var(--gray);
 
-      background: #222;
+      background: #202020;
     }
 
 
@@ -659,15 +603,17 @@
 
       width: 100%;
 
-      margin-top: 20px;
+      margin-top: 18px;
 
-      padding: 17px 15px;
+      padding:
+        17px
+        15px;
 
       border: 0;
 
       border-radius: 16px;
 
-      background: #f0f0f0;
+      background: #f1f1f1;
 
       color: #111;
 
@@ -685,6 +631,7 @@
 
     #scanButton:active {
       transform: scale(0.98);
+
       opacity: 0.85;
     }
 
@@ -696,20 +643,20 @@
     footer {
       margin-top: auto;
 
-      padding-top: 32px;
+      padding-top: 26px;
 
       display: flex;
 
       align-items: center;
       justify-content: center;
 
-      gap: 15px;
+      gap: 14px;
 
       color: #777;
 
       font-size: 14px;
 
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
 
@@ -717,8 +664,8 @@
     footer::after {
       content: "";
 
+      width: 72px;
       height: 1px;
-      width: 62px;
 
       background:
         linear-gradient(
@@ -740,35 +687,64 @@
 
 
     /* =====================================================
-       PHONE KECIL
+       SMALL PHONES
        ===================================================== */
 
     @media (max-width: 390px) {
 
       .page {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 14px;
+        padding-right: 14px;
       }
+
 
       .music-logo {
-        font-size: 61px;
+        width: 50px;
+
+        font-size: 59px;
       }
+
+
+      .brand {
+        gap: 7px;
+      }
+
 
       .title-row-1 {
-        font-size: 38px;
+        font-size: 41px;
       }
+
 
       .title-row-2 {
-        font-size: 18px;
+        font-size: 15px;
       }
 
+
       .venue {
-        letter-spacing: 2.5px;
+        font-size: 10px;
+
+        letter-spacing: 3px;
       }
+
+
+      .venue::before,
+      .venue::after {
+        width: 48px;
+      }
+
 
       #reader,
       #reader video {
-        min-height: 330px;
+        min-height: 335px;
+      }
+
+
+      #result {
+        min-height: 118px;
+
+        padding:
+          18px
+          14px;
       }
 
     }
@@ -790,6 +766,7 @@
 
     <div class="brand">
 
+
       <div class="music-logo">
         𝄞
       </div>
@@ -807,12 +784,16 @@
 
       </div>
 
+
     </div>
 
 
     <div class="venue">
       DEWAN SRI PINANG
     </div>
+
+
+    <div class="header-wave"></div>
 
   </header>
 
@@ -829,47 +810,15 @@
 
     <div id="reader"></div>
 
-
-    <div class="scan-overlay">
-
-      <div class="scan-box">
-
-        <div class="corner tl"></div>
-
-        <div class="corner tr"></div>
-
-        <div class="corner bl"></div>
-
-        <div class="corner br"></div>
-
-      </div>
-
-    </div>
-
   </div>
 
 
 
   <!-- =================================================
-       STATUS
+       STATUS / READY
        ================================================= -->
 
   <div id="result">
-
-    <div class="qr-ready-icon">
-
-      <div class="qr-symbol">
-
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-
-      </div>
-
-    </div>
-
 
     <div class="status-title">
       SEDIA UNTUK IMBAS
@@ -878,6 +827,10 @@
   </div>
 
 
+
+  <!-- =================================================
+       BUTTON
+       ================================================= -->
 
   <button
     id="scanButton"
@@ -913,7 +866,7 @@ const API_URL =
 
 
 /* =====================================================
-   VARIABLES
+   GLOBAL VARIABLES
    ===================================================== */
 
 let html5QrCode =
@@ -928,16 +881,21 @@ let sudahScan = false;
 
 
 /* =====================================================
-   ESCAPE TEXT
+   SAFE HTML
    ===================================================== */
 
 function safe(value) {
 
   return String(value || "")
+
     .replaceAll("&", "&amp;")
+
     .replaceAll("<", "&lt;")
+
     .replaceAll(">", "&gt;")
+
     .replaceAll('"', "&quot;")
+
     .replaceAll("'", "&#039;");
 
 }
@@ -945,7 +903,7 @@ function safe(value) {
 
 
 /* =====================================================
-   READY CARD
+   READY
    ===================================================== */
 
 function paparReady() {
@@ -959,21 +917,6 @@ function paparReady() {
 
   result.innerHTML = `
 
-    <div class="qr-ready-icon">
-
-      <div class="qr-symbol">
-
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-
-      </div>
-
-    </div>
-
-
     <div class="status-title">
       SEDIA UNTUK IMBAS
     </div>
@@ -985,10 +928,11 @@ function paparReady() {
 
 
 /* =====================================================
-   START SCANNER
+   START CAMERA
    ===================================================== */
 
 async function mulaScanner() {
+
 
   if (sedangScan) {
     return;
@@ -1008,22 +952,27 @@ async function mulaScanner() {
     document.getElementById("cameraFrame");
 
 
-  button.style.display = "none";
+  button.style.display =
+    "none";
 
-  cameraFrame.style.display = "block";
+
+  cameraFrame.style.display =
+    "block";
 
 
   paparReady();
 
 
+
   try {
 
 
-    /* ---------------------------------------------
-       Cari kamera kali pertama sahaja
-       --------------------------------------------- */
+    /* -------------------------------------------------
+       GET CAMERA
+       ------------------------------------------------- */
 
     if (!cameraId) {
+
 
       const cameras =
         await Html5Qrcode.getCameras();
@@ -1041,21 +990,22 @@ async function mulaScanner() {
       }
 
 
-      /*
-        Utamakan kamera belakang.
-      */
-
       const kameraBelakang =
         cameras.find(camera => {
+
 
           const label =
             camera.label.toLowerCase();
 
 
           return (
+
             label.includes("back") ||
+
             label.includes("rear") ||
+
             label.includes("environment")
+
           );
 
         });
@@ -1063,20 +1013,25 @@ async function mulaScanner() {
 
       cameraId =
         kameraBelakang
+
           ? kameraBelakang.id
-          : cameras[cameras.length - 1].id;
+
+          : cameras[
+              cameras.length - 1
+            ].id;
 
     }
 
 
 
-    /* ---------------------------------------------
-       Start kamera
-       --------------------------------------------- */
+    /* -------------------------------------------------
+       START
+       ------------------------------------------------- */
 
     await html5QrCode.start(
 
       cameraId,
+
 
       {
         fps: 10,
@@ -1090,9 +1045,9 @@ async function mulaScanner() {
       },
 
 
-      /* -------------------------------------------
-         QR berjaya dibaca
-         ------------------------------------------- */
+      /* ------------------------------------------------
+         SUCCESS
+         ------------------------------------------------ */
 
       async function(decodedText) {
 
@@ -1111,36 +1066,42 @@ async function mulaScanner() {
 
         }
 
-        catch (error) {}
+        catch (error) {
+
+          /*
+            Ignore stop error
+          */
+
+        }
 
 
         sedangScan = false;
 
 
         /*
-          Selepas QR berjaya dibaca,
-          sembunyikan kamera supaya keputusan
-          lebih jelas.
+          Kamera hilang bila result keluar.
         */
 
         cameraFrame.style.display =
           "none";
 
 
-        semakTiket(decodedText);
+        semakTiket(
+          decodedText
+        );
 
       },
 
 
-      /* -------------------------------------------
-         QR belum dikesan
-         ------------------------------------------- */
+      /* ------------------------------------------------
+         SCAN BELUM BERJAYA
+         ------------------------------------------------ */
 
       function(errorMessage) {
 
         /*
           Abaikan.
-          Scanner memang akan cuba berulang kali.
+          Library akan cuba scan semula.
         */
 
       }
@@ -1170,6 +1131,7 @@ async function mulaScanner() {
         KAMERA TIDAK DAPAT DIBUKA
       </div>
 
+
       <div class="serial">
         ${safe(error.message)}
       </div>
@@ -1187,14 +1149,15 @@ async function mulaScanner() {
 
 
 /* =====================================================
-   SEMAK TIKET - JSONP
+   SEMAK TIKET VIA JSONP
    ===================================================== */
 
 function semakTiket(serial) {
 
 
   serial =
-    String(serial || "").trim();
+    String(serial || "")
+      .trim();
 
 
   const result =
@@ -1206,21 +1169,6 @@ function semakTiket(serial) {
 
   result.innerHTML = `
 
-    <div class="qr-ready-icon">
-
-      <div class="qr-symbol">
-
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-
-      </div>
-
-    </div>
-
-
     <div class="status-title">
       MENYEMAK TIKET...
     </div>
@@ -1229,14 +1177,17 @@ function semakTiket(serial) {
 
 
 
-  /* ---------------------------------------------
-     Nama callback unik
-     --------------------------------------------- */
+  /* ---------------------------------------------------
+     CALLBACK NAME
+     --------------------------------------------------- */
 
   const callbackName =
     "osigCallback_" +
+
     Date.now() +
+
     "_" +
+
     Math.floor(
       Math.random() * 100000
     );
@@ -1244,48 +1195,60 @@ function semakTiket(serial) {
 
 
   const script =
-    document.createElement("script");
+    document.createElement(
+      "script"
+    );
 
 
   let timeout;
 
 
 
-  /* ---------------------------------------------
-     Bila backend jawab
-     --------------------------------------------- */
+  /* ---------------------------------------------------
+     SUCCESS RESPONSE
+     --------------------------------------------------- */
 
   window[callbackName] =
     function(data) {
 
 
-      clearTimeout(timeout);
+      clearTimeout(
+        timeout
+      );
 
 
-      delete window[callbackName];
+      delete window[
+        callbackName
+      ];
 
 
       script.remove();
 
 
-      paparKeputusan(data);
+      paparKeputusan(
+        data
+      );
 
     };
 
 
 
-  /* ---------------------------------------------
-     Sambungan gagal
-     --------------------------------------------- */
+  /* ---------------------------------------------------
+     SCRIPT ERROR
+     --------------------------------------------------- */
 
   script.onerror =
     function() {
 
 
-      clearTimeout(timeout);
+      clearTimeout(
+        timeout
+      );
 
 
-      delete window[callbackName];
+      delete window[
+        callbackName
+      ];
 
 
       script.remove();
@@ -1304,41 +1267,52 @@ function semakTiket(serial) {
 
 
 
-  /* ---------------------------------------------
-     Panggil Apps Script
-     --------------------------------------------- */
+  /* ---------------------------------------------------
+     REQUEST
+     --------------------------------------------------- */
 
   script.src =
     API_URL +
 
     "?serial=" +
-    encodeURIComponent(serial) +
+
+    encodeURIComponent(
+      serial
+    ) +
 
     "&callback=" +
+
     encodeURIComponent(
       callbackName
     );
 
 
-  document.body.appendChild(script);
+  document.body.appendChild(
+    script
+  );
 
 
 
-  /* ---------------------------------------------
-     Timeout
-     --------------------------------------------- */
+  /* ---------------------------------------------------
+     TIMEOUT
+     --------------------------------------------------- */
 
   timeout =
     setTimeout(
+
       function() {
 
 
         if (
-          window[callbackName]
+          window[
+            callbackName
+          ]
         ) {
 
 
-          delete window[callbackName];
+          delete window[
+            callbackName
+          ];
 
 
           script.remove();
@@ -1346,7 +1320,8 @@ function semakTiket(serial) {
 
           paparKeputusan({
 
-            status: "ERROR",
+            status:
+              "ERROR",
 
             message:
               "Sambungan mengambil masa terlalu lama."
@@ -1357,7 +1332,9 @@ function semakTiket(serial) {
 
       },
 
+
       10000
+
     );
 
 }
@@ -1365,35 +1342,45 @@ function semakTiket(serial) {
 
 
 /* =====================================================
-   PAPAR KEPUTUSAN
+   PAPAR RESULT
    ===================================================== */
 
 function paparKeputusan(data) {
 
 
   const result =
-    document.getElementById("result");
+    document.getElementById(
+      "result"
+    );
 
 
   const button =
-    document.getElementById("scanButton");
+    document.getElementById(
+      "scanButton"
+    );
 
 
   const serial =
-    safe(data.serial);
+    safe(
+      data.serial
+    );
 
 
   const hari =
-    safe(data.hari);
+    safe(
+      data.hari
+    );
 
 
   const tarikh =
-    safe(data.tarikh);
+    safe(
+      data.tarikh
+    );
 
 
 
   /* ===================================================
-     HIJAU
+     VALID
      =================================================== */
 
   if (
@@ -1408,7 +1395,9 @@ function paparKeputusan(data) {
     result.innerHTML = `
 
       <div class="status-title">
+
         ✅ TIKET SAH
+
       </div>
 
 
@@ -1418,7 +1407,11 @@ function paparKeputusan(data) {
         ? `
 
           <div class="tarikh">
-            ${hari} • ${tarikh}
+
+            ${hari}
+            •
+            ${tarikh}
+
           </div>
 
         `
@@ -1428,7 +1421,9 @@ function paparKeputusan(data) {
 
 
       <div class="serial">
+
         ${serial}
+
       </div>
 
     `;
@@ -1438,7 +1433,7 @@ function paparKeputusan(data) {
 
 
   /* ===================================================
-     KUNING
+     USED
      =================================================== */
 
   else if (
@@ -1453,8 +1448,9 @@ function paparKeputusan(data) {
     result.innerHTML = `
 
       <div class="status-title">
-        ⚠️ TIKET TELAH<br>
-        DIGUNAKAN
+
+        ⚠️ TIKET TELAH DIGUNAKAN
+
       </div>
 
 
@@ -1464,7 +1460,11 @@ function paparKeputusan(data) {
         ? `
 
           <div class="tarikh">
-            ${hari} • ${tarikh}
+
+            ${hari}
+            •
+            ${tarikh}
+
           </div>
 
         `
@@ -1474,7 +1474,9 @@ function paparKeputusan(data) {
 
 
       <div class="serial">
+
         ${serial}
+
       </div>
 
     `;
@@ -1484,7 +1486,7 @@ function paparKeputusan(data) {
 
 
   /* ===================================================
-     MERAH
+     INVALID
      =================================================== */
 
   else if (
@@ -1499,17 +1501,23 @@ function paparKeputusan(data) {
     result.innerHTML = `
 
       <div class="status-title">
+
         ❌ TIKET TIDAK SAH
+
       </div>
 
 
       <div class="tarikh">
+
         TIDAK WUJUD DALAM DATABASE
+
       </div>
 
 
       <div class="serial">
+
         ${serial}
+
       </div>
 
     `;
@@ -1519,7 +1527,7 @@ function paparKeputusan(data) {
 
 
   /* ===================================================
-     ERROR
+     SYSTEM ERROR
      =================================================== */
 
   else {
@@ -1532,15 +1540,19 @@ function paparKeputusan(data) {
     result.innerHTML = `
 
       <div class="status-title">
+
         RALAT SISTEM
+
       </div>
 
 
       <div class="serial">
+
         ${safe(
           data.message ||
           "Ralat tidak diketahui."
         )}
+
       </div>
 
     `;
@@ -1557,7 +1569,7 @@ function paparKeputusan(data) {
 
 
 /* =====================================================
-   SCAN SETERUSNYA
+   NEXT TICKET
    ===================================================== */
 
 function scanSemula() {
@@ -1573,7 +1585,7 @@ function scanSemula() {
 
 
 /* =====================================================
-   START
+   START APP
    ===================================================== */
 
 mulaScanner();
