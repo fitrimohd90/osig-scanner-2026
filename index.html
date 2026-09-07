@@ -11,6 +11,14 @@
 
   <title>Orkestra Siswa Guru MADANI 2026</title>
 
+  <link rel="manifest" href="./manifest.json">
+
+  <meta name="theme-color" content="#111111">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Scanner OSiG">
+
   <script src="https://unpkg.com/html5-qrcode"></script>
 
   <style>
@@ -641,9 +649,9 @@
        ===================================================== */
 
     footer {
-      margin-top: auto;
+      margin-top: 14px;
 
-      padding-top: 26px;
+      padding-top: 10px;
 
       display: flex;
 
@@ -1582,6 +1590,31 @@ function scanSemula() {
 
 }
 
+
+
+
+/* =====================================================
+   SERVICE WORKER / PWA
+   ===================================================== */
+
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener("load", function() {
+
+    navigator.serviceWorker
+      .register("./sw.js")
+      .catch(function(error) {
+
+        console.warn(
+          "Service worker gagal didaftarkan:",
+          error
+        );
+
+      });
+
+  });
+
+}
 
 
 /* =====================================================
