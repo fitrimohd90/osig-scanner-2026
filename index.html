@@ -43,11 +43,23 @@
     #result {
       max-width: 500px;
       margin: 20px auto;
-      padding: 20px;
+      padding: 24px;
       background: #222;
       border-radius: 15px;
       font-size: 20px;
       font-weight: bold;
+    }
+
+    .valid {
+      background: #123d20 !important;
+    }
+
+    .invalid {
+      background: #4a1515 !important;
+    }
+
+    .checking {
+      background: #333 !important;
     }
   </style>
 </head>
@@ -64,18 +76,53 @@
   </div>
 
   <script>
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbzaFdaQyadvCNGG6AlwAZsbCBPH7rRF-k3FiBAzE2mnDmTGMil6gMtV4ypM9kOUYcgv/exec";
+
     let sudahScan = false;
 
-    function onScanSuccess(decodedText) {
+    async function onScanSuccess(decodedText) {
 
       if (sudahScan) return;
 
       sudahScan = true;
 
-      document.getElementById("result").innerHTML =
-        "QR DIKESAN<br><br>" + decodedText;
+      const resultBox = document.getElementById("result");
 
-      html5QrCode.stop();
+      resultBox.className = "checking";
+      resultBox.innerHTML =
+        "MENYEMAK TIKET...<br><br>" + decodedText;
+
+      try {
+        await html5QrCode.stop();
+
+        const response = await fetch(
+          API_URL + "?serial=" + encodeURIComponent(decodedText)
+        );
+
+        const data = await response.json();
+
+        if (data.status === "VALID") {
+
+          resultBox.className = "valid";
+          resultBox.innerHTML =
+            "✅ TIKET SAH<br><br>" + data.serial;
+
+        } else {
+
+          resultBox.className = "invalid";
+          resultBox.innerHTML =
+            "❌ TIKET TIDAK SAH<br><br>" + decodedText;
+
+        }
+
+      } catch (error) {
+
+        resultBox.className = "invalid";
+        resultBox.innerHTML =
+          "RALAT SAMBUNGAN<br><br>" + error;
+
+      }
     }
 
     const html5QrCode = new Html5Qrcode("reader");
@@ -85,7 +132,6 @@
 
         if (cameras && cameras.length) {
 
-          // Biasanya kamera terakhir ialah kamera belakang
           const cameraId = cameras[cameras.length - 1].id;
 
           html5QrCode.start(
