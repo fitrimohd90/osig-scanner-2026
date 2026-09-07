@@ -1,97 +1,382 @@
-<script>
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbzaFdaQyadvCNGG6AlwAZsbCBPH7rRF-k3FiBAzE2mnDmTGMil6gMtV4ypM9kOUYcgv/exec";
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  let sudahScan = false;
+  <title>Scanner OSiG 2026</title>
 
-  function semakTiket(serial) {
-    const resultBox = document.getElementById("result");
+  <!-- Library QR Scanner -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
-    resultBox.className = "checking";
-    resultBox.innerHTML =
-      "MENYEMAK TIKET...<br><br>" + serial;
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    const callbackName = "jsonpCallback_" + Date.now();
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      text-align: center;
+    }
 
-    window[callbackName] = function(data) {
+    h1 {
+      margin-top: 20px;
+      margin-bottom: 5px;
+      font-size: 32px;
+      font-weight: 500;
+    }
 
-      if (data.status === "VALID") {
-        resultBox.className = "valid";
-        resultBox.innerHTML =
-          "✅ TIKET SAH<br><br>" + data.serial;
-      } else {
-        resultBox.className = "invalid";
-        resultBox.innerHTML =
-          "❌ TIKET TIDAK SAH<br><br>" + serial;
+    .subtitle {
+      color: #aaa;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #222;
+    }
+
+    #result {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 30px 20px;
+      background: #222;
+      border-radius: 18px;
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    .checking {
+      background: #333 !important;
+    }
+
+    .valid {
+      background: #123d20 !important;
+    }
+
+    .invalid {
+      background: #4a1515 !important;
+    }
+
+    .error {
+      background: #4a1515 !important;
+    }
+
+    #scanAgain {
+      display: none;
+      width: 100%;
+      max-width: 500px;
+      margin: 15px auto;
+      padding: 18px;
+      border: none;
+      border-radius: 15px;
+      background: white;
+      color: #111;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Scanner OSiG 2026</h1>
+
+  <div class="subtitle">
+    Imbas QR e-Tiket
+  </div>
+
+  <div id="reader"></div>
+
+  <div id="result">
+    Menunggu imbasan...
+  </div>
+
+  <button id="scanAgain" onclick="scanSemula()">
+    IMBAS TIKET SETERUSNYA
+  </button>
+
+
+  <script>
+    // =====================================================
+    // BACKEND GOOGLE APPS SCRIPT
+    // =====================================================
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbzaFdaQyadvCNGG6AlwAZsbCBPH7rRF-k3FiBAzE2mnDmTGMil6gMtV4ypM9kOUYcgv/exec";
+
+
+    // =====================================================
+    // VARIABLES
+    // =====================================================
+
+    let sudahScan = false;
+    let html5QrCode = null;
+
+
+    // =====================================================
+    // START CAMERA
+    // =====================================================
+
+    function mulaScanner() {
+
+      const resultBox = document.getElementById("result");
+      const scanAgainButton = document.getElementById("scanAgain");
+
+      sudahScan = false;
+
+      scanAgainButton.style.display = "none";
+
+      resultBox.className = "";
+      resultBox.innerHTML = "Menunggu imbasan...";
+
+      html5QrCode = new Html5Qrcode("reader");
+
+      Html5Qrcode.getCameras()
+        .then(cameras => {
+
+          if (!cameras || cameras.length === 0) {
+
+            resultBox.className = "error";
+            resultBox.innerHTML =
+              "Kamera tidak dijumpai.";
+
+            return;
+          }
+
+          // Biasanya kamera terakhir ialah kamera belakang telefon
+          const cameraId = cameras[cameras.length - 1].id;
+
+          html5QrCode.start(
+            cameraId,
+            {
+              fps: 10,
+
+              qrbox: {
+                width: 250,
+                height: 250
+              },
+
+              aspectRatio: 1.0
+            },
+
+            onScanSuccess
+          )
+          .catch(error => {
+
+            resultBox.className = "error";
+
+            resultBox.innerHTML =
+              "Kamera tidak dapat dibuka.<br><br>" +
+              error;
+          });
+
+        })
+        .catch(error => {
+
+          resultBox.className = "error";
+
+          resultBox.innerHTML =
+            "Kamera tidak dapat dibuka.<br><br>" +
+            error;
+        });
+    }
+
+
+    // =====================================================
+    // QR BERJAYA DIKESAN
+    // =====================================================
+
+    function onScanSuccess(decodedText) {
+
+      if (sudahScan) {
+        return;
       }
 
-      delete window[callbackName];
-      script.remove();
-    };
+      sudahScan = true;
 
-    const script = document.createElement("script");
+      const serial = decodedText.trim();
 
-    script.src =
-      API_URL +
-      "?serial=" + encodeURIComponent(serial) +
-      "&callback=" + callbackName;
+      if (html5QrCode) {
 
-    script.onerror = function() {
-      resultBox.className = "invalid";
+        html5QrCode.stop()
+          .then(() => {
+            semakTiket(serial);
+          })
+          .catch(() => {
+            semakTiket(serial);
+          });
+
+      } else {
+
+        semakTiket(serial);
+      }
+    }
+
+
+    // =====================================================
+    // SEMAK TIKET DENGAN GOOGLE SHEETS
+    // JSONP DIGUNAKAN UNTUK ELAK MASALAH CORS
+    // =====================================================
+
+    function semakTiket(serial) {
+
+      const resultBox = document.getElementById("result");
+
+      resultBox.className = "checking";
+
       resultBox.innerHTML =
-        "RALAT SAMBUNGAN";
+        "MENYEMAK TIKET..." +
+        "<br><br>" +
+        serial;
 
-      delete window[callbackName];
-      script.remove();
-    };
 
-    document.body.appendChild(script);
-  }
+      const callbackName =
+        "jsonpCallback_" + Date.now();
 
-  function onScanSuccess(decodedText) {
 
-    if (sudahScan) return;
+      const script =
+        document.createElement("script");
 
-    sudahScan = true;
 
-    html5QrCode.stop()
-      .then(() => {
-        semakTiket(decodedText);
-      })
-      .catch(() => {
-        semakTiket(decodedText);
-      });
-  }
+      // Callback daripada Apps Script
+      window[callbackName] = function(data) {
 
-  const html5QrCode = new Html5Qrcode("reader");
+        clearTimeout(timeout);
 
-  Html5Qrcode.getCameras()
-    .then(cameras => {
+        if (data.status === "VALID") {
 
-      if (cameras && cameras.length) {
+          resultBox.className = "valid";
 
-        const cameraId = cameras[cameras.length - 1].id;
+          resultBox.innerHTML =
+            "✅ TIKET SAH" +
+            "<br><br>" +
+            data.serial;
 
-        html5QrCode.start(
-          cameraId,
-          {
-           fps: 10,
-            qrbox: {
-              width: 250,
-              height: 250
-            }
-          },
-          onScanSuccess
-        );
+        }
 
-      } else {
-        document.getElementById("result").innerText =
-          "Kamera tidak dijumpai.";
-      }
+        else if (data.status === "INVALID") {
 
-    })
-    .catch(error => {
-      document.getElementById("result").innerText =
-        "Kamera tidak dapat dibuka: " + error;
-    });
-</script>
+          resultBox.className = "invalid";
+
+          resultBox.innerHTML =
+            "❌ TIKET TIDAK SAH" +
+            "<br><br>" +
+            serial;
+
+        }
+
+        else {
+
+          resultBox.className = "error";
+
+          resultBox.innerHTML =
+            "RALAT SEMAKAN" +
+            "<br><br>" +
+            (data.message || "Ralat tidak diketahui");
+        }
+
+
+        document.getElementById("scanAgain")
+          .style.display = "block";
+
+
+        delete window[callbackName];
+
+        script.remove();
+      };
+
+
+      // Kalau script JSONP gagal load
+      script.onerror = function() {
+
+        clearTimeout(timeout);
+
+        resultBox.className = "error";
+
+        resultBox.innerHTML =
+          "RALAT SAMBUNGAN";
+
+
+        document.getElementById("scanAgain")
+          .style.display = "block";
+
+
+        delete window[callbackName];
+
+        script.remove();
+      };
+
+
+      // Timeout kalau backend terlalu lama
+      const timeout = setTimeout(function() {
+
+        resultBox.className = "error";
+
+        resultBox.innerHTML =
+          "MASA SAMBUNGAN TAMAT.<br><br>" +
+          "Cuba imbas semula.";
+
+
+        document.getElementById("scanAgain")
+          .style.display = "block";
+
+
+        delete window[callbackName];
+
+        script.remove();
+
+      }, 10000);
+
+
+      script.src =
+        API_URL +
+        "?serial=" +
+        encodeURIComponent(serial) +
+        "&callback=" +
+        encodeURIComponent(callbackName) +
+        "&t=" +
+        Date.now();
+
+
+      document.body.appendChild(script);
+    }
+
+
+    // =====================================================
+    // SCAN TIKET SETERUSNYA
+    // =====================================================
+
+    function scanSemula() {
+
+      const reader =
+        document.getElementById("reader");
+
+      reader.innerHTML = "";
+
+      mulaScanner();
+    }
+
+
+    // =====================================================
+    // START
+    // =====================================================
+
+    mulaScanner();
+
+  </script>
+
+</body>
+</html>
