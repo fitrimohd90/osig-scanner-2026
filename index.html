@@ -1,166 +1,97 @@
-<!DOCTYPE html>
-<html lang="ms">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbzaFdaQyadvCNGG6AlwAZsbCBPH7rRF-k3FiBAzE2mnDmTGMil6gMtV4ypM9kOUYcgv/exec";
 
-  <title>Scanner OSiG 2026</title>
+  let sudahScan = false;
 
-  <script src="https://unpkg.com/html5-qrcode"></script>
+  function semakTiket(serial) {
+    const resultBox = document.getElementById("result");
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    resultBox.className = "checking";
+    resultBox.innerHTML =
+      "MENYEMAK TIKET...<br><br>" + serial;
 
-    body {
-      margin: 0;
-      padding: 24px;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
-      text-align: center;
-    }
+    const callbackName = "jsonpCallback_" + Date.now();
 
-    h1 {
-      margin-bottom: 5px;
-    }
+    window[callbackName] = function(data) {
 
-    .subtitle {
-      color: #aaa;
-      margin-bottom: 25px;
-    }
-
-    #reader {
-      width: 100%;
-      max-width: 500px;
-      margin: 0 auto;
-      overflow: hidden;
-      border-radius: 15px;
-      background: white;
-    }
-
-    #result {
-      max-width: 500px;
-      margin: 20px auto;
-      padding: 24px;
-      background: #222;
-      border-radius: 15px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .valid {
-      background: #123d20 !important;
-    }
-
-    .invalid {
-      background: #4a1515 !important;
-    }
-
-    .checking {
-      background: #333 !important;
-    }
-  </style>
-</head>
-
-<body>
-
-  <h1>Scanner OSiG 2026</h1>
-  <div class="subtitle">Imbas QR e-Tiket</div>
-
-  <div id="reader"></div>
-
-  <div id="result">
-    Menunggu imbasan...
-  </div>
-
-  <script>
-    const API_URL =
-      "https://script.google.com/macros/s/AKfycbzaFdaQyadvCNGG6AlwAZsbCBPH7rRF-k3FiBAzE2mnDmTGMil6gMtV4ypM9kOUYcgv/exec";
-
-    let sudahScan = false;
-
-    async function onScanSuccess(decodedText) {
-
-      if (sudahScan) return;
-
-      sudahScan = true;
-
-      const resultBox = document.getElementById("result");
-
-      resultBox.className = "checking";
-      resultBox.innerHTML =
-        "MENYEMAK TIKET...<br><br>" + decodedText;
-
-      try {
-        await html5QrCode.stop();
-
-        const response = await fetch(
-          API_URL + "?serial=" + encodeURIComponent(decodedText)
-        );
-
-        const data = await response.json();
-
-        if (data.status === "VALID") {
-
-          resultBox.className = "valid";
-          resultBox.innerHTML =
-            "✅ TIKET SAH<br><br>" + data.serial;
-
-        } else {
-
-          resultBox.className = "invalid";
-          resultBox.innerHTML =
-            "❌ TIKET TIDAK SAH<br><br>" + decodedText;
-
-        }
-
-      } catch (error) {
-
+      if (data.status === "VALID") {
+        resultBox.className = "valid";
+        resultBox.innerHTML =
+          "✅ TIKET SAH<br><br>" + data.serial;
+      } else {
         resultBox.className = "invalid";
         resultBox.innerHTML =
-          "RALAT SAMBUNGAN<br><br>" + error;
-
+          "❌ TIKET TIDAK SAH<br><br>" + serial;
       }
-    }
 
-    const html5QrCode = new Html5Qrcode("reader");
+      delete window[callbackName];
+      script.remove();
+    };
 
-    Html5Qrcode.getCameras()
-      .then(cameras => {
+    const script = document.createElement("script");
 
-        if (cameras && cameras.length) {
+    script.src =
+      API_URL +
+      "?serial=" + encodeURIComponent(serial) +
+      "&callback=" + callbackName;
 
-          const cameraId = cameras[cameras.length - 1].id;
+    script.onerror = function() {
+      resultBox.className = "invalid";
+      resultBox.innerHTML =
+        "RALAT SAMBUNGAN";
 
-          html5QrCode.start(
-            cameraId,
-            {
-              fps: 10,
-              qrbox: {
-                width: 250,
-                height: 250
-              }
-            },
-            onScanSuccess
-          );
+      delete window[callbackName];
+      script.remove();
+    };
 
-        } else {
+    document.body.appendChild(script);
+  }
 
-          document.getElementById("result").innerText =
-            "Kamera tidak dijumpai.";
+  function onScanSuccess(decodedText) {
 
-        }
+    if (sudahScan) return;
 
+    sudahScan = true;
+
+    html5QrCode.stop()
+      .then(() => {
+        semakTiket(decodedText);
       })
-      .catch(error => {
-
-        document.getElementById("result").innerText =
-          "Kamera tidak dapat dibuka: " + error;
-
+      .catch(() => {
+        semakTiket(decodedText);
       });
-  </script>
+  }
 
-</body>
-</html>
+  const html5QrCode = new Html5Qrcode("reader");
+
+  Html5Qrcode.getCameras()
+    .then(cameras => {
+
+      if (cameras && cameras.length) {
+
+        const cameraId = cameras[cameras.length - 1].id;
+
+        html5QrCode.start(
+          cameraId,
+          {
+            fps: 10,
+            qrbox: {
+              width: 250,
+              height: 250
+            }
+          },
+          onScanSuccess
+        );
+
+      } else {
+        document.getElementById("result").innerText =
+          "Kamera tidak dijumpai.";
+      }
+
+    })
+    .catch(error => {
+      document.getElementById("result").innerText =
+        "Kamera tidak dapat dibuka: " + error;
+    });
+</script>
