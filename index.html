@@ -507,6 +507,28 @@
     }
 
 
+    .sektor {
+      position: relative;
+      z-index: 2;
+      margin-top: 14px;
+      font-size: clamp(36px, 10vw, 52px);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--white);
+    }
+
+    .kategori {
+      position: relative;
+      z-index: 2;
+      margin-top: 7px;
+      font-size: clamp(15px, 4vw, 19px);
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
     .tarikh {
       position: relative;
 
@@ -1385,6 +1407,16 @@ function paparKeputusan(data) {
       data.tarikh
     );
 
+  const sektor =
+    safe(
+      data.sektor
+    );
+
+  const kategori =
+    safe(
+      data.kategori
+    );
+
 
 
   /* ===================================================
@@ -1409,29 +1441,22 @@ function paparKeputusan(data) {
       </div>
 
 
-      ${
-        data.tarikh
+      <div class="sektor">
+        ${sektor}
+      </div>
 
-        ? `
+      <div class="kategori">
+        ${kategori}
+      </div>
 
-          <div class="tarikh">
-
-            ${hari}
-            •
-            ${tarikh}
-
-          </div>
-
-        `
-
-        : ""
-      }
-
+      <div class="tarikh">
+        ${hari}
+        •
+        ${tarikh}
+      </div>
 
       <div class="serial">
-
         ${serial}
-
       </div>
 
     `;
@@ -1462,29 +1487,22 @@ function paparKeputusan(data) {
       </div>
 
 
-      ${
-        data.tarikh
+      <div class="sektor">
+        ${sektor}
+      </div>
 
-        ? `
+      <div class="kategori">
+        ${kategori}
+      </div>
 
-          <div class="tarikh">
-
-            ${hari}
-            •
-            ${tarikh}
-
-          </div>
-
-        `
-
-        : ""
-      }
-
+      <div class="tarikh">
+        ${hari}
+        •
+        ${tarikh}
+      </div>
 
       <div class="serial">
-
         ${serial}
-
       </div>
 
     `;
