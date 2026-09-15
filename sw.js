@@ -1,4 +1,4 @@
-const CACHE_NAME = "osig-scanner-v1";
+const CACHE_NAME = "osig-scanner-v2";
 
 const APP_SHELL = [
   "./",
